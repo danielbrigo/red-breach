@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Breach — Preparação Ligafest</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;
+  --surface:#1a1a1a;
+  --surface2:#222;
+  --border:#2e2e2e;
+  --border2:#3d3d3d;
+  --text:#f0f0f0;
+  --muted:#888;
+  --muted2:#555;
+  --red:#c0392b;
+  --red-light:#e74c3c;
+  --red-dim:#2a1010;
+  --red-border:#5a1a1a;
+  --green:#27ae60;
+  --green-dim:#0e2a1a;
+  --green-border:#1a5c30;
+  --amber:#d4a017;
+  --amber-dim:#2a2000;
+  --radius:8px;
+  --radius-lg:12px;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+.wrap{max-width:700px;margin:0 auto;padding:2rem 1.25rem}
+
+/* Header */
+.rb-header{display:flex;align-items:center;gap:14px;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:0.5px solid var(--border)}
+.rb-logo{width:44px;height:44px;background:var(--red);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rb-logo i{font-size:22px;color:#fff}
+.rb-title{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.rb-subtitle{font-size:12px;color:var(--muted);margin-top:2px;letter-spacing:.04em;text-transform:uppercase}
+.days-badge{margin-left:auto;background:var(--red-dim);border:0.5px solid var(--red-border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--red-light);white-space:nowrap}
+
+/* Screens */
+.screen{display:none}
+.screen.active{display:block}
+
+/* Cards */
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px}
+.card-title{font-size:14px;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.card-title i{color:var(--red);font-size:16px}
+
+/* Inputs */
+label.lbl{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;letter-spacing:.03em}
+input,textarea,select{width:100%;padding:9px 12px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--red)}
+textarea{resize:vertical;min-height:80px}
+select option{background:var(--surface)}
+.field{margin-bottom:1rem}
+.field:last-child{margin-bottom:0}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:0.5px solid var(--border2);border-radius:var(--radius);background:transparent;color:var(--text);font-size:13px;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn:hover{background:var(--surface2);border-color:var(--border2)}
+.btn-primary{background:var(--red);border-color:var(--red);color:#fff}
+.btn-primary:hover{background:#a93226;border-color:#a93226}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-ghost{border:none;color:var(--muted);padding:4px 0}
+.btn-ghost:hover{color:var(--text);background:none}
+
+/* Player grid */
+.player-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.player-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;cursor:pointer;transition:border-color .15s;text-align:center}
+.player-card:hover{border-color:var(--red)}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--red-dim);border:0.5px solid var(--red-border);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--red-light);margin:0 auto 10px}
+.avatar-lg{width:52px;height:52px;border-radius:50%;background:var(--red-dim);border:0.5px solid var(--red-border);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--red-light);flex-shrink:0}
+.p-name{font-size:14px;font-weight:500}
+.p-deck{font-size:11px;color:var(--muted);margin-top:2px}
+.p-prog{font-size:11px;color:var(--red-light);margin-top:6px}
+.new-player{display:flex;align-items:center;justify-content:center;gap:6px;padding:1rem;border:0.5px dashed var(--border2);border-radius:var(--radius-lg);cursor:pointer;color:var(--muted);font-size:13px;transition:all .15s}
+.new-player:hover{border-color:var(--red);color:var(--red-light)}
+
+/* Error */
+.err{color:#e74c3c;font-size:12px;margin-top:5px;display:none}
+
+/* Back */
+.back{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);cursor:pointer;margin-bottom:1.5rem;background:none;border:none;font-family:inherit;padding:0}
+.back:hover{color:var(--text)}
+
+/* Stage nav */
+.stage-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.stage-pill{padding:4px 12px;border-radius:20px;font-size:12px;border:0.5px solid var(--border2);color:var(--muted);display:flex;align-items:center;gap:4px}
+.stage-pill.done{border-color:var(--green-border);background:var(--green-dim);color:var(--green)}
+.stage-pill.active{border-color:var(--red-border);background:var(--red-dim);color:var(--red-light)}
+.stage-pill.locked{opacity:.4}
+
+/* Progress */
+.progress-wrap{height:3px;background:var(--surface2);border-radius:2px;margin-bottom:1.75rem;overflow:hidden}
+.progress-fill{height:100%;background:var(--red);border-radius:2px;transition:width .5s}
+
+/* Step dots */
+.step-row{display:flex;align-items:center;gap:8px;margin-bottom:1.5rem}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--surface2);flex-shrink:0}
+.step-dot.done{background:var(--green)}
+.step-dot.cur{background:var(--red);box-shadow:0 0 0 3px var(--red-dim)}
+.step-label{font-size:12px;color:var(--muted)}
+
+/* Tags */
+.tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{padding:5px 12px;border-radius:20px;font-size:12px;border:0.5px solid var(--border2);cursor:pointer;color:var(--muted);background:transparent;font-family:inherit;transition:all .15s}
+.tag:hover{border-color:var(--red);color:var(--red-light)}
+.tag.sel{border-color:var(--red-border);background:var(--red-dim);color:var(--red-light)}
+
+/* Info box */
+.info{background:var(--surface2);border-left:2px solid var(--red);border-radius:0 var(--radius) var(--radius) 0;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:1rem}
+
+/* Article row */
+.art-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)}
+.art-row:last-of-type{border-bottom:none}
+.art-check{width:18px;height:18px;border:0.5px solid var(--border2);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:transparent;transition:all .15s}
+.art-check.checked{background:var(--red);border-color:var(--red)}
+.art-info{flex:1;min-width:0}
+.art-name{font-size:13px}
+.art-cat{font-size:11px;color:var(--muted)}
+.art-link{font-size:13px;color:var(--muted);flex-shrink:0;transition:color .15s}
+.art-link:hover{color:var(--red-light)}
+.art-cat-hdr{font-size:10px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 4px;padding-bottom:4px;border-bottom:0.5px solid var(--border)}
+
+/* Pre-read */
+.pre-read{background:var(--surface2);border-radius:var(--radius);padding:1rem;margin-bottom:4px}
+.pre-read-lbl{font-size:11px;color:var(--red-light);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+
+/* Badge */
+.badge{padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-red{background:var(--red-dim);color:var(--red-light)}
+.badge-green{background:var(--green-dim);color:var(--green)}
+.badge-amber{background:var(--amber-dim);color:var(--amber)}
+
+/* Divider */
+.div{height:0.5px;background:var(--border);margin:1.25rem 0}
+
+/* Checklist */
+.chk-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)}
+.chk-item:last-child{border-bottom:none}
+.chk-box{width:18px;height:18px;border:0.5px solid var(--border2);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background:transparent;transition:all .15s}
+.chk-box.done{background:var(--green);border-color:var(--green)}
+.chk-text{font-size:13px}
+.chk-text.done{text-decoration:line-through;color:var(--muted)}
+
+/* Profile header */
+.prof-header{display:flex;align-items:center;gap:14px;margin-bottom:1.75rem}
+.prof-meta .pn{font-size:18px;font-weight:600}
+.prof-meta .pd{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* Stage 3 tabs */
+.s3tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.s3tab{padding:5px 12px;border-radius:20px;font-size:12px;border:0.5px solid var(--border);cursor:pointer;color:var(--muted);background:transparent;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:4px}
+.s3tab.active{border-color:var(--red-border);background:var(--red-dim);color:var(--red-light)}
+.s3panel{display:none}
+.s3panel.active{display:block}
+
+/* Log items */
+.log-item{background:var(--surface2);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px}
+.log-item-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.log-meta{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* Tips */
+.tip{margin-bottom:1rem;padding-bottom:1rem;border-bottom:0.5px solid var(--border)}
+.tip:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.tip-label{font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.tip-text{font-size:13px;color:var(--muted)}
+.cronograma{padding:1.5rem 0;border-bottom:0.5px solid var(--border);margin-bottom:1.75rem;overflow:hidden}
+.crono-title{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:1.25rem}
+/* horizontal timeline */
+.crono-track{position:relative;display:flex;align-items:center;justify-content:space-between;padding:60px 8px}
+.crono-node{position:relative;display:flex;flex-direction:column;align-items:center;flex:1;z-index:2;min-width:0}
+.crono-circle{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid var(--green);background:var(--green);color:#fff;flex-shrink:0;position:relative;z-index:2;transition:all .3s}
+.crono-circle.done{background:var(--green);border-color:var(--green);color:#fff}
+.crono-circle.active{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 0 0 4px var(--green-dim)}
+.crono-circle.future{background:var(--red);border-color:var(--red);color:#fff}
+.crono-circle.event{background:var(--red);border-color:var(--red);color:#fff}
+.crono-today-dot{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--border);z-index:3;top:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(255,255,255,0.25);pointer-events:none}
+/* labels above and below alternating */
+.crono-node-label-above{text-align:center;padding:0 4px;position:absolute;width:100%;left:0;bottom:calc(50% + 26px)}
+.crono-node-label-below{text-align:center;padding:0 4px;position:absolute;width:100%;left:0;top:calc(50% + 26px)}
+.crono-lbl{font-size:10px;font-weight:600;color:#fff;line-height:1.3;letter-spacing:.01em}
+.crono-lbl.done{color:#fff}
+.crono-lbl.active{color:#fff}
+.crono-lbl.event{color:#fff;font-weight:700}
+.crono-dt{font-size:9px;color:var(--muted);margin-top:2px;line-height:1.3}
+.crono-cd{font-size:9px;font-weight:700;color:var(--red-light);margin-top:3px;text-transform:uppercase;letter-spacing:.02em}
+.crono-cd.amber{color:var(--amber)}
+/* SVG line sits behind nodes */
+.crono-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+
+/* Empty state */
+.empty{font-size:13px;color:var(--muted2);padding:12px 0;text-align:center}
+
+/* Responsive */
+@media(max-width:480px){
+  .wrap{padding:1rem .75rem}
+  .player-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+}
+
+.section-label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:.75rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="rb-header">
+    <img src="data:image/png;base64,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" alt="Red Breach logo" style="width:44px;height:44px;border-radius:var(--radius);object-fit:contain;display:block">
+    <div>
+      <div class="rb-title">Red Breach</div>
+      <div class="rb-subtitle">Projeto de preparação — Ligafest</div>
+    </div>
+    <div class="days-badge" id="days-ctr"></div>
+  </div>
+
+  <!-- CRONOGRAMA (sempre visível) -->
+  <div class="cronograma" id="cronograma-block" style="display:none">
+    <div class="crono-title">Cronograma</div>
+    <div style="position:relative">
+      <div class="crono-track" id="crono-track"></div>
+    </div>
+  </div>
+
+  <!-- LOBBY -->
+  <div class="screen active" id="s-lobby">
+    <div style="margin-bottom:1.25rem">
+      <div style="font-size:20px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px">Bem vindo!</div>
+      <div style="font-size:13px;color:var(--muted)">Selecione ou crie seu perfil.</div>
+    </div>
+    <div class="player-grid" id="player-grid"></div>
+    <div class="new-player" onclick="show('s-register')">Criar perfil</div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="screen" id="s-register">
+    <button class="back" onclick="show('s-lobby')"><i class="ti ti-arrow-left"></i> Voltar</button>
+    <div class="section-label">Criar perfil</div>
+    <div class="card">
+      <div class="field"><label class="lbl">Nome do jogador</label><input id="r-name" type="text" maxlength="30" placeholder="Ex: Kenji, Mantoani..."></div>
+      <div class="field"><label class="lbl">Deck / Lista atual</label><input id="r-deck" type="text" maxlength="50" placeholder="Ex: UR Prowess, Excruciator..."></div>
+      <div class="field"><label class="lbl">PIN (4 dígitos)</label><input id="r-pin" type="password" inputmode="numeric" maxlength="4" placeholder="••••"></div>
+      <div class="err" id="r-err"></div>
+    </div>
+    <div class="row-btns"><button class="btn btn-primary" onclick="doReg()"><i class="ti ti-check"></i> Criar perfil</button></div>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="screen" id="s-login">
+    <button class="back" onclick="show('s-lobby')"><i class="ti ti-arrow-left"></i> Voltar</button>
+    <div class="section-label" id="login-lbl">Entrar</div>
+    <div class="card">
+      <div class="field"><label class="lbl">PIN</label><input id="l-pin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="err" id="l-err">PIN incorreto.</div>
+    </div>
+    <div class="row-btns"><button class="btn btn-primary" onclick="doLogin()"><i class="ti ti-door-enter"></i> Entrar</button></div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="screen" id="s-dash">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+      <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Perfil do Jogador</span>
+      <button class="back" onclick="doLogout()" style="margin-bottom:0">Desconectar</button>
+    </div>
+    <div class="prof-header">
+      <div class="avatar-lg" id="d-avatar"></div>
+      <div class="prof-meta"><div class="pn" id="d-name"></div><div class="pd" id="d-deck"></div></div>
+    </div>
+    <div class="stage-nav" id="d-stages"></div>
+    <div class="progress-wrap"><div class="progress-fill" id="d-prog" style="width:0%"></div></div>
+    <div id="d-content"></div>
+  </div>
+</div>
+
+<script>
+const ARTICLES=[
+  {c:'1. A Base',n:'O que é Magic?',u:'https://magic.wizards.com/en/news/feature/what-magic-2014-08-11',t:['fundamentos']},
+  {c:'1. A Base',n:'Mana',u:'https://magic.wizards.com/en/news/feature/basics-mana-2015-07-06',t:['fundamentos']},
+  {c:'1. A Base',n:'Vantagem de Cartas',u:'https://magic.wizards.com/en/news/feature/basics-card-advantage-2015-07-13',t:['gestão de recursos']},
+  {c:'2. Conceitos Parte 1',n:'Ataque e Bloqueio',u:'https://magic.wizards.com/en/news/feature/attacking-and-blocking-2015-07-27',t:['fundamentos']},
+  {c:'2. Conceitos Parte 1',n:'Tempo',u:'https://magic.wizards.com/en/news/feature/tempo-2015-07-20',t:['fundamentos','gestão de recursos']},
+  {c:'2. Conceitos Parte 1',n:'Tempo & Vantagem de Cartas',u:'https://magic.wizards.com/en/news/feature/tempo-card-advantage-delicate-balance-2014-11-17',t:['gestão de recursos']},
+  {c:'2. Conceitos Parte 1',n:'Estratégias Lineares',u:'https://magic.wizards.com/en/news/feature/linear-strategies-2014-12-29',t:['construção de plano de jogo']},
+  {c:'3. Arquétipos',n:'Aggro',u:'https://magic.wizards.com/en/news/feature/aggro-decks-2014-09-29',t:['construção de plano de jogo']},
+  {c:'3. Arquétipos',n:'Control',u:'https://magic.wizards.com/en/news/feature/control-decks-2014-10-06',t:['construção de plano de jogo','identificação do papel na partida']},
+  {c:'3. Arquétipos',n:'Midrange',u:'https://magic.wizards.com/en/news/feature/midrange-decks-2014-10-27',t:['construção de plano de jogo','identificação do papel na partida']},
+  {c:'4. Conceitos Parte 2',n:'Cóleras e Globais',u:'https://magic.wizards.com/en/news/feature/board-sweepers-2015-06-22',t:['gestão de recursos']},
+  {c:'4. Conceitos Parte 2',n:'Anulações',u:'https://magic.wizards.com/en/news/feature/permission-spells-2015-08-17',t:['gestão de recursos']},
+  {c:'4. Conceitos Parte 2',n:'Terrenos Criaturas',u:'https://magic.wizards.com/en/news/feature/creature-lands-2015-09-07',t:['gestão de recursos']},
+  {c:'4. Conceitos Parte 2',n:'Simetria de Efeitos',u:'https://magic.wizards.com/en/news/feature/symmetric-effects-2014-09-01',t:['gestão de recursos']},
+  {c:'4. Conceitos Parte 2',n:'Ameaças e Respostas',u:'https://magic.wizards.com/en/news/feature/threats-and-answers-2014-09-08',t:['construção de plano de jogo','identificação do papel na partida']},
+  {c:'4. Conceitos Parte 2',n:'Inevitabilidade',u:'https://magic.wizards.com/en/news/feature/inevitability-2014-12-08',t:['construção de plano de jogo']},
+  {c:'4. Conceitos Parte 2',n:'Definição de Papéis',u:'https://magic.wizards.com/en/news/feature/role-assignment-2015-01-05',t:['identificação do papel na partida']},
+  {c:'4. Conceitos Parte 2',n:'Corrida para causar mais dano',u:'https://magic.wizards.com/en/news/feature/damage-racing-2015-05-04',t:['construção de plano de jogo']},
+  {c:'4. Conceitos Parte 2',n:'Mulligans',u:'https://magic.wizards.com/en/news/feature/mulligans-2015-01-26',t:['mulligan','avaliação de mãos iniciais']},
+  {c:'4. Conceitos Parte 2',n:'Sequenciamento',u:'https://magic.wizards.com/en/news/feature/sequencing-2015-02-16',t:['sequenciamento']},
+  {c:'4. Conceitos Parte 2',n:'Jogar ou Comprar',u:'https://magic.wizards.com/en/news/feature/play-or-draw-2015-03-16',t:['avaliação de mãos iniciais','sequenciamento']},
+  {c:'5. Conceitos Parte 3',n:'Investimento (tempo x valor)',u:'https://magic.wizards.com/en/news/feature/investment-2015-03-02',t:['gestão de recursos']},
+  {c:'5. Conceitos Parte 3',n:'Teoria de Escalação',u:'https://magic.wizards.com/en/news/feature/line-theory-2015-03-23',t:['construção de plano de jogo']},
+  {c:'5. Conceitos Parte 3',n:'Como jogar em Vantagem/Desvantagem',u:'https://magic.wizards.com/en/news/feature/playing-ahead-playing-behind-2015-03-30',t:['identificação do papel na partida','gestão de recursos']},
+  {c:'5. Conceitos Parte 3',n:'Entendendo Decisões',u:'https://magic.wizards.com/en/news/feature/going-through-motions-2015-05-11',t:['construção de plano de jogo']},
+  {c:'5. Conceitos Parte 3',n:'Mulligans 3',u:'https://magic.wizards.com/en/news/feature/mulligans-part-iii-constructed-2015-06-29',t:['mulligan','avaliação de mãos iniciais']},
+  {c:'5. Conceitos Parte 3',n:'Jogando seguro e jogando com medo',u:'https://magic.wizards.com/en/news/feature/playing-safe-and-playing-scared-2015-08-24',t:['construção de plano de jogo']},
+  {c:'5. Conceitos Parte 3',n:'Qual o melhor momento para conjurar suas mágicas?',u:'https://magic.wizards.com/en/news/feature/when-cast-your-spells-2015-08-31',t:['sequenciamento']},
+  {c:'5. Conceitos Parte 3',n:'Flexibilidade',u:'https://magic.wizards.com/en/news/feature/flexibility-2015-09-14',t:['construção de plano de jogo']},
+  {c:'5. Construção',n:'Planos de Sideboard',u:'https://magic.wizards.com/en/news/feature/sideboard-plans-2015-03-09',t:['sideboard']},
+  {c:'5. Construção',n:'Escolhendo seu Deck',u:'https://magic.wizards.com/en/news/feature/choosing-your-deck-2015-06-08',t:['fundamentos']},
+  {c:'5. Construção',n:'Metagame',u:'https://magic.wizards.com/en/news/feature/metagame-2015-06-01',t:['fundamentos']},
+  {c:'6. Extras',n:'Elevando seu nível de jogo',u:'https://magic.wizards.com/en/news/feature/becoming-better-player-2015-09-28',t:['fundamentos']},
+  {c:'6. Extras',n:'Glossário de Termos',u:'https://magic.wizards.com/en/news/feature/glossary-of-terms',t:['fundamentos']},
+  {c:'6. Extras',n:'Schooldex - Dojo',u:'https://www.classicdojo.org/school/schooldex.html',t:['fundamentos']}
+];
+const WEAK=['Mulligan','Sideboard','Sequenciamento','Avaliação de mãos iniciais','Gestão de Recursos','Construção de Plano de Jogo','Identificação do Papel na Partida'];
+const SLBLS=['Estudo Teórico','Compartilhamento','Treino Metodológico'];
+
+let P={}, cur=null, loginT=null;
+
+function load(){ try{const d=localStorage.getItem('rb_v2'); if(d) P=JSON.parse(d);}catch(e){P={};} }
+function save(){ try{localStorage.setItem('rb_v2',JSON.stringify(P));}catch(e){} }
+function ini(n){ return n.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function calcProg(p){
+  let d=0;
+  if((p.weaknesses||[]).length>0) d++;
+  const sel=Object.keys(p.articleSel||{}).filter(k=>p.articleSel[k]);
+  if(sel.length>0) d++;
+  if(sel.length>0&&sel.every(k=>p.articleRead&&p.articleRead[k])) d++;
+  if(((p.deckStudy||{}).notes||{})['plano']&&(p.deckStudy.notes['plano']||'').trim()) d++;
+  if(((p.deckStudy||{}).notes||{})['matchups']&&(p.deckStudy.notes['matchups']||'').trim()) d++;
+  if(p.stage>=2) d++;
+  return Math.round((d/6)*100);
+}
+
+function lobby(){
+  const g=document.getElementById('player-grid');
+  g.innerHTML='';
+  const ks=Object.keys(P);
+  if(!ks.length){ g.innerHTML='<p style="font-size:13px;color:var(--muted);grid-column:1/-1">Nenhum jogador ainda.</p>'; return; }
+  ks.forEach(k=>{
+    const p=P[k], prog=calcProg(p);
+    const d=document.createElement('div');
+    d.className='player-card';
+    d.innerHTML=`<div class="avatar">${esc(ini(p.name))}</div><div class="p-name">${esc(p.name)}</div><div class="p-deck">${esc(p.deck||'—')}</div><div class="p-prog">${SLBLS[p.stage||0]||'Concluído'} · ${prog}%</div>`;
+    d.onclick=()=>startLogin(k);
+    g.appendChild(d);
+  });
+}
+
+function startLogin(k){
+  loginT=k;
+  document.getElementById('login-lbl').textContent='Entrar como '+P[k].name;
+  document.getElementById('l-pin').value='';
+  document.getElementById('l-err').style.display='none';
+  show('s-login');
+}
+
+function doLogin(){
+  const pin=document.getElementById('l-pin').value;
+  if(!loginT||!P[loginT]){return;}
+  if(P[loginT].pin!==pin){ document.getElementById('l-err').style.display='block'; return; }
+  cur=loginT;
+  viewingStage=null;
+  renderCronograma(true);
+  renderDash();
+  show('s-dash');
+}
+
+function doLogout(){ cur=null; viewingStage=null; renderCronograma(false); lobby(); show('s-lobby'); }
+
+function doReg(){
+  const name=document.getElementById('r-name').value.trim();
+  const deck=document.getElementById('r-deck').value.trim();
+  const pin=document.getElementById('r-pin').value.trim();
+  const err=document.getElementById('r-err');
+  if(!name){err.textContent='Nome obrigatório.';err.style.display='block';return;}
+  if(!/^\d{4}$/.test(pin)){err.textContent='PIN deve ter exatamente 4 dígitos.';err.style.display='block';return;}
+  const k=name.toLowerCase().replace(/\s+/g,'_')+Date.now();
+  P[k]={name,deck,pin,stage:0,weaknesses:[],articleSel:{},articleRead:{},articleNotes:{},preQ:{},deckStudy:{notes:{}},shareNotes:'',shareChecks:{},tests:[],trainLog:[],problems:[]};
+  save(); cur=k; viewingStage=null; renderCronograma(true); renderDash(); show('s-dash');
+}
+
+let viewingStage=null;
+
+function renderDash(forceView){
+  const p=P[cur];
+  document.getElementById('d-avatar').textContent=ini(p.name);
+  document.getElementById('d-name').textContent=p.name;
+  document.getElementById('d-deck').textContent=p.deck||'Deck não definido';
+  document.getElementById('d-prog').style.width=calcProg(p)+'%';
+  renderCronograma(true);
+  // which stage to show: forced, or remembered, or player's current
+  const playerStage=p.stage||0;
+  if(forceView!==undefined) viewingStage=forceView;
+  if(viewingStage===null||viewingStage>playerStage) viewingStage=playerStage;
+  const viewing=viewingStage;
+  const nav=document.getElementById('d-stages');
+  nav.innerHTML=SLBLS.map((l,i)=>{
+    const unlocked=i<=playerStage;
+    const isViewing=i===viewing;
+    let cls='stage-pill';
+    if(isViewing) cls+=' active';
+    else if(i<playerStage) cls+=' done';
+    else cls+=' locked';
+    const label=(i<playerStage&&!isViewing?'✓ ':i+1+'. ')+l;
+    if(unlocked){
+      return `<div class="${cls}" style="cursor:pointer" data-nav="${i}">${label}</div>`;
+    }
+    return `<div class="${cls}">${label}</div>`;
+  }).join('');
+  const c=document.getElementById('d-content');
+  if(viewing===0) c.innerHTML=buildS1(p);
+  else if(viewing===1) c.innerHTML=buildS2(p);
+  else c.innerHTML=buildS3(p);
+  bindEvents(p,viewing);
+  // attach nav clicks
+  document.querySelectorAll('[data-nav]').forEach(el=>{
+    el.addEventListener('click',()=>renderDash(parseInt(el.dataset.nav)));
+  });
+}
+
+function s1Step(p){
+  if(!(p.weaknesses&&p.weaknesses.length>0)) return 0;
+  const sel=Object.keys(p.articleSel||{}).filter(k=>p.articleSel[k]);
+  // sub-step 1a: selecting articles (articleSelConfirmed not set yet)
+  if(!p.articleSelConfirmed) return 1;
+  // sub-step 1b: active study (confirmed but not all read)
+  if(!sel.length||!sel.every(k=>p.articleRead&&p.articleRead[k])) return '1b';
+  return 2;
+}
+
+function s1SubNav(p){
+  // derive the natural sub-view from step progress if none set
+  if(p._s1view) return p._s1view;
+  return 'intro';
+}
+
+function buildS1(p){
+  const s1view=s1SubNav(p);
+  const weaksOk=(p.weaknesses||[]).length>0;
+  const sel=Object.keys(p.articleSel||{}).filter(k=>p.articleSel[k]);
+  const articlesOk=p.articleSelConfirmed&&sel.length>0&&sel.every(k=>p.articleRead&&p.articleRead[k]);
+  const dk=(p.deckStudy||{}).notes||{};
+  const deckOk=['plano','sequencias','matchups','sideboard','cartas','hands','vitoria'].every(k=>(dk[k]||'').trim());
+
+  let h=`<div style="margin-bottom:1.75rem">
+    <div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">1. Estudo Teórico Individual</div>
+    <p style="font-size:16px;font-weight:500;color:var(--text);line-height:1.7">Estude os fundamentos do jogo, identifique suas fraquezas e domine sua lista antes de entrar em campo.</p>
+  </div>`;
+
+  // ── NAV BAR (when not on intro) ──
+  if(s1view!=='intro'){
+    h+=`<div class="s3tabs">
+      <button class="s3tab" data-s1nav="intro" style="font-size:11px;color:var(--muted);padding:4px 8px">&#8592; Visão geral</button>
+      <button class="s3tab${s1view==='fraquezas'?' active':''}" data-s1nav="fraquezas">Fraquezas</button>
+      <button class="s3tab${s1view==='artigos'?' active':''}" data-s1nav="artigos">Artigos</button>
+      <button class="s3tab${s1view==='deck'?' active':''}" data-s1nav="deck">Domínio do Deck</button>
+    </div>`;
+  }
+
+  // ── INTRO ──
+  if(s1view==='intro'){
+    const subcards=[
+      {k:'fraquezas', title:'Identifique sua fraqueza', desc:'Liste seus pontos fracos. Essa autoconsciência irá orientar todo seu plano de preparo.', done:weaksOk},
+      {k:'artigos',   title:'Leitura de Artigos',    desc:'Selecione os artigos que se relacionam com as fraquezas listadas na etapa anterior. Preencha o campo de pré-leitura, leia e anote os aprendizados.', done:articlesOk},
+      {k:'deck',      title:'Domínio do Deck', desc:'Agora você vai ir mais fundo na intimidade com seu deck, entendê-lo inteiramente e extrair tudo o que ele tem a oferecer.', done:deckOk},
+    ];
+    h+=`<div style="display:flex;flex-direction:column;gap:10px">`;
+    subcards.forEach(c=>{
+      h+=`<div class="card" style="cursor:pointer;border-color:${c.done?'var(--green-border)':'var(--border2)'};background:${c.done?'var(--green-dim)':'var(--surface)'}" data-s1nav="${c.k}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="font-size:14px;font-weight:600;${c.done?'color:var(--green)':''}">${c.title}</div>
+          ${c.done?'<span class="badge badge-green">Concluído</span>':''}
+        </div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6">${c.desc}</div>
+        <div style="margin-top:10px;font-size:12px;font-weight:500;color:${c.done?'var(--green)':'var(--red-light)'}">
+          ${c.done?'Ver / editar':'Acessar'} &rarr;
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+    return h;
+  }
+
+  // ── FRAQUEZAS ──
+  if(s1view==='fraquezas'){
+    h+=`<div style="margin-bottom:1.5rem"><div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Identifique sua fraqueza</div><p style="font-size:15px;font-weight:500;color:var(--text);line-height:1.7">Liste seus pontos fracos. Essa autoconsciência irá orientar todo seu plano de preparo.</p></div>`;
+    const customWeaks=(p.weaknesses||[]).filter(w=>!WEAK.includes(w));
+    if(weaksOk){
+      h+=`<div class="card">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Fraquezas identificadas</div>
+        <div class="tag-list">${(p.weaknesses||[]).map(w=>`<div class="tag sel">${esc(w)}</div>`).join('')}</div>
+        <div class="div"></div>
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Alterar seleção</div>
+        <div class="tag-list" id="weak-tags">`;
+      WEAK.forEach(w=>{ h+=`<button class="tag${(p.weaknesses||[]).includes(w)?' sel':''}" data-w="${esc(w)}">${esc(w)}</button>`; });
+      h+=`</div>
+        <div style="margin-top:1rem">
+          <label class="lbl">Outros — adicione fraquezas personalizadas</label>
+          ${customWeaks.length?`<div class="tag-list" style="margin-bottom:8px">${customWeaks.map(w=>`<div class="tag sel" style="display:inline-flex;align-items:center;gap:6px">${esc(w)} <span data-rmweak="${esc(w)}" style="cursor:pointer;font-size:14px;line-height:1;color:var(--red-light)">&times;</span></div>`).join('')}</div>`:''}
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="weak-other" type="text" maxlength="80" placeholder="Ex: Gestão de tempo no jogo..." style="flex:1">
+            <button class="btn btn-sm" id="btn-add-other" style="white-space:nowrap">+ Adicionar</button>
+          </div>
+        </div>
+        <div class="row-btns" style="margin-top:1rem"><button class="btn btn-primary" id="btn-sw">Salvar alterações</button></div>
+      </div>`;
+    } else {
+      h+=`<div class="card">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Selecione suas fraquezas</div>
+        <div class="info">Seja honesto — identificar fraquezas é o primeiro passo para eliminá-las. Selecione quantas quiser ou escreva a sua no campo Outros.</div>
+        <div class="tag-list" id="weak-tags">`;
+      WEAK.forEach(w=>{ h+=`<button class="tag${(p.weaknesses||[]).includes(w)?' sel':''}" data-w="${esc(w)}">${esc(w)}</button>`; });
+      h+=`</div>
+        <div style="margin-top:1rem">
+          <label class="lbl">Outros — adicione fraquezas personalizadas</label>
+          ${customWeaks.length?`<div class="tag-list" style="margin-bottom:8px">${customWeaks.map(w=>`<div class="tag sel" style="display:inline-flex;align-items:center;gap:6px">${esc(w)} <span data-rmweak="${esc(w)}" style="cursor:pointer;font-size:14px;line-height:1;color:var(--red-light)">&times;</span></div>`).join('')}</div>`:''}
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="weak-other" type="text" maxlength="80" placeholder="Ex: Gestão de tempo no jogo..." style="flex:1">
+            <button class="btn btn-sm" id="btn-add-other" style="white-space:nowrap">+ Adicionar</button>
+          </div>
+        </div>
+        <div class="row-btns" style="margin-top:1rem"><button class="btn btn-primary" id="btn-sw">Confirmar</button></div>
+      </div>`;
+    }
+  }
+
+  // ── ARTIGOS ──
+  if(s1view==='artigos'){
+    h+=`<div style="margin-bottom:1.5rem"><div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Leitura de Artigos</div><p style="font-size:15px;font-weight:500;color:var(--text);line-height:1.7">Selecione os artigos que se relacionam com as fraquezas listadas na etapa anterior. Preencha o campo de pré-leitura, leia e anote os aprendizados.</p></div>`;
+    if(!weaksOk){
+      h+=`<div class="card"><div class="info">Identifique suas fraquezas primeiro antes de selecionar artigos.</div>
+        <div class="row-btns"><button class="btn btn-primary" data-s1nav="fraquezas">Ir para Fraquezas</button></div></div>`;
+    } else if(!p.articleSelConfirmed){
+      // 1a: seleção
+      const selC=Object.keys(p.articleSel||{}).filter(k=>p.articleSel[k]);
+      h+=`<div class="card" style="margin-bottom:10px">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Suas fraquezas</div>
+        <div class="tag-list">${(p.weaknesses||[]).map(w=>`<div class="tag sel">${esc(w)}</div>`).join('')}</div>
+      </div>`;
+      h+=`<div class="card">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Selecione os artigos que irá estudar</div>
+        <div class="info">Clique no título para ler o artigo. Marque o checkbox dos que vai estudar e clique em Prosseguir.</div>`;
+      let curC='';
+      ARTICLES.forEach((a,i)=>{
+        if(a.c!==curC){curC=a.c;h+=`<div class="art-cat-hdr">${esc(a.c)}</div>`;}
+        const isSel=p.articleSel&&p.articleSel[i];
+        h+=`<div class="art-row">
+          <div class="art-check${isSel?' checked':''}" data-ai="${i}" style="flex-shrink:0">${isSel?'<i class="ti ti-check" style="font-size:11px;color:#fff"></i>':''}</div>
+          <div class="art-info" style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:13px;font-weight:500;line-height:1.4">${esc(a.n)}</span>
+              <a href="${a.u}" target="_blank" style="font-size:12px;font-weight:500;color:var(--red-light);text-decoration:none;white-space:nowrap;flex-shrink:0">Ler artigo</a>
+            </div>
+            <div class="art-cat">${esc(a.c)}</div>
+          </div>
+        </div>`;
+      });
+      const cnt=selC.length;
+      h+=`<div style="margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="btn-confirm-sel">
+          Prosseguir${cnt>0?' \u2014 '+cnt+' artigo'+(cnt>1?'s':'')+' selecionado'+(cnt>1?'s':''):' para estudo'}        </button>
+        ${cnt===0?'<span style="font-size:12px;color:var(--muted)">Selecione ao menos 1 artigo primeiro.</span>':''}
+      </div></div>`;
+    } else {
+      // 1b: estudo ativo
+      const readCnt=sel.filter(k=>p.articleRead&&p.articleRead[k]).length;
+      const pct=sel.length>0?Math.round((readCnt/sel.length)*100):0;
+      h+=`<div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+          <div style="font-size:13px;font-weight:500">Estudo ativo — ${readCnt} de ${sel.length} concluído${readCnt!==1?'s':''}</div>
+          <button class="btn btn-sm" id="btn-ew">Editar seleção</button>
+        </div>
+        <div style="height:3px;background:var(--surface2);border-radius:2px;margin-bottom:1.25rem;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--green);border-radius:2px;transition:width .4s"></div></div>
+        <div class="info">Para cada artigo: escreva seus pensamentos atuais, salve a pré-leitura, leia e anote as conclusões.</div>`;
+      sel.forEach(i=>{
+        const a=ARTICLES[i]; if(!a) return;
+        const isRead=p.articleRead&&p.articleRead[i];
+        const pq=((p.preQ||{})[i])||'';
+        const pn=((p.articleNotes||{})[i])||'';
+        const preqSaved=pq.trim().length>0;
+        h+=`<div style="border:0.5px solid ${isRead?'var(--green-border)':'var(--border2)'};border-radius:var(--radius);padding:1rem;margin-bottom:12px;background:${isRead?'var(--green-dim)':'var(--surface2)'}">
+          <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:${isRead?'0':'1rem'}">
+            <div style="width:20px;height:20px;border-radius:50%;background:${isRead?'var(--green)':preqSaved?'var(--amber-dim)':'var(--border2)'};border:0.5px solid ${isRead?'var(--green-border)':preqSaved?'var(--amber)':'var(--border2)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-size:10px">
+              ${isRead?'✓':preqSaved?'◐':'○'}
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:500;${isRead?'color:var(--green)':''}">${esc(a.n)}</div>
+              <div style="font-size:11px;color:var(--muted)">${esc(a.c)}</div>
+            </div>
+            ${isRead?`<a href="${a.u}" target="_blank" style="font-size:12px;font-weight:500;color:var(--red-light);text-decoration:none;flex-shrink:0">Ler artigo</a>`:''}
+          </div>`;
+        if(!isRead){
+          h+=`<div style="margin-bottom:${preqSaved?'1rem':'0'}">
+            <div style="font-size:10px;font-weight:600;color:${preqSaved?'var(--amber)':'var(--muted)'};text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">${preqSaved?'✓ Pré-leitura salva':'1. Pré-leitura — escreva antes de ler'}</div>
+            <textarea placeholder="O que você já sabe ou acredita sobre '${esc(a.n)}'?" data-pq="${i}" id="pq-${i}" style="min-height:70px;font-size:13px">${esc(pq)}</textarea>
+            <div class="row-btns" style="margin-top:6px">
+              <button class="btn btn-sm" data-spq="${i}">Salvar pré-leitura</button>
+              <a href="${a.u}" target="_blank" style="font-size:13px;font-weight:500;color:var(--red-light);text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center">Ler artigo</a>
+            </div>
+          </div>`;
+          if(preqSaved){
+            h+=`<div style="border-top:0.5px solid var(--border);padding-top:1rem">
+              <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">2. Anotações pós-leitura</div>
+              <textarea placeholder="O que aprendi. O que mudou. Pontos para discutir no grupo..." data-pn="${i}" id="pn-${i}" style="min-height:80px;font-size:13px">${esc(pn)}</textarea>
+              <div class="row-btns" style="margin-top:6px">
+                <button class="btn btn-sm" data-spn="${i}">Salvar anotações</button>
+                <button class="btn btn-sm btn-primary" data-mr="${i}">Concluir artigo</button>
+              </div>
+            </div>`;
+          }
+        }
+        h+=`</div>`;
+      });
+      h+=`<div class="row-btns" style="margin-top:.5rem">`;
+      if(articlesOk){
+        h+=`<button class="btn btn-primary" data-s1nav="deck">Ir para Domínio do Deck &rarr;</button>`;
+      } else {
+        h+=`<span style="font-size:13px;color:var(--muted)">${readCnt} de ${sel.length} artigos concluídos</span>`;
+      }
+      h+=`</div></div>`;
+    }
+  }
+
+  // ── DOMÍNIO DO DECK ──
+  if(s1view==='deck'){
+    h+=`<div style="margin-bottom:1.5rem"><div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Domínio do Deck</div><p style="font-size:15px;font-weight:500;color:var(--text);line-height:1.7">Agora você vai ir mais fundo na intimidade com seu deck, entendê-lo inteiramente e extrair tudo o que ele tem a oferecer.</p></div>`;
+    const dk2=p.deckStudy||{};
+    const notes=dk2.notes||{};
+    const REFS=[{k:'refs',l:'Referências — jogadores / resultados expressivos com o deck'},{k:'guide',l:'Deck tech / guide / primer estudado (vídeo ou texto)'}];
+    const DNOTES=[{k:'plano',l:'Plano de jogo base'},{k:'sequencias',l:'Sequências de jogo'},{k:'matchups',l:'Planos contra cada matchup (cartas de valor, momentos de tensão, decisões importantes)'},{k:'sideboard',l:'Planos de sideboard'},{k:'cartas',l:'Cartas-chave (gerais e por matchup)'},{k:'hands',l:'Mãos que devem / não devem ser mantidas'},{k:'vitoria',l:'Como o deck vence suas partidas'}];
+    const deckName=esc(p.deck||'Meu Deck');
+    const ALL_DK_KEYS=['refs','guide','plano','sequencias','matchups','sideboard','cartas','hands','vitoria'];
+    const filledCount=ALL_DK_KEYS.filter(k=>(notes[k]||'').trim()).length;
+    h+=`<div class="card">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Domínio do Deck</div>
+      <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">${deckName}</div>
+      <div class="info">Não copie decisões cegamente. Entenda as linhas, os planos e as interações que só aparecem quando você estuda quem já domina o arquétipo.</div>`;
+    REFS.forEach(r=>{
+      const filled=(notes[r.k]||'').trim().length>0;
+      h+=`<div class="field"><label class="lbl">${esc(r.l)}</label>
+        <textarea placeholder="Anote aqui..." data-dk="${r.k}" id="dk-${r.k}" style="min-height:70px">${esc(notes[r.k]||'')}</textarea>
+        <div class="row-btns"><button class="btn btn-sm" data-sdk="${r.k}">${filled?'Salvo ✓':'Salvar'}</button></div></div>`;
+    });
+    h+=`</div><div class="card">`;
+    DNOTES.forEach(dn=>{
+      const filled=(notes[dn.k]||'').trim().length>0;
+      h+=`<div class="field"><label class="lbl">${esc(dn.l)}</label>
+        <textarea placeholder="Anote aqui..." data-dk="${dn.k}" id="dk-${dn.k}" style="min-height:70px">${esc(notes[dn.k]||'')}</textarea>
+        <div class="row-btns"><button class="btn btn-sm" data-sdk="${dn.k}">${filled?'Salvo ✓':'Salvar'}</button></div></div>`;
+    });
+    h+=`<div style="margin-top:.5rem;padding-top:1rem;border-top:0.5px solid var(--border)">`;
+    if(deckOk){
+      h+=`<button class="btn btn-primary" id="btn-fs1">Estágio 1 concluído — avançar para Compartilhamento</button>`;
+    } else {
+      h+=`<span style="font-size:13px;color:var(--muted)">${filledCount} de ${ALL_DK_KEYS.length} campos preenchidos — preencha todos para concluir.</span>`;
+    }
+    h+=`</div></div>`;
+  }
+
+  return h;
+}
+
+function buildS2(p){
+  let h=`<div style="margin-bottom:1.75rem">
+    <div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">2. Compartilhamento</div>
+    <p style="font-size:16px;font-weight:500;color:var(--text);line-height:1.7">Reúna o time, compartilhe o que aprendeu e alinhem juntos os próximos passos antes de partir para o treino.</p>
+  </div>`;
+
+  // ── BLOCO 1: Resumo do Estágio 1 ──
+  h+=`<div class="card" style="margin-bottom:12px">
+    <div class="card-title"><i class="ti ti-clipboard-list"></i>Seu resumo para a reunião</div>
+    <div class="info">Leve estas anotações para o encontro. Apresente cada item ao grupo.</div>`;
+
+  // Fraquezas
+  h+=`<div style="margin-bottom:1.25rem">
+    <div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Fraquezas identificadas</div>`;
+  const weaks=p.weaknesses||[];
+  if(weaks.length){ h+=`<div class="tag-list">${weaks.map(w=>`<div class="tag sel">${esc(w)}</div>`).join('')}</div>`; }
+  else { h+=`<div class="empty">Nenhuma fraqueza registrada.</div>`; }
+  h+=`</div>`;
+
+  // Artigos + anotações
+  h+=`<div style="margin-bottom:1.25rem">
+    <div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Artigos lidos e aprendizados</div>`;
+  const sel=Object.keys(p.articleSel||{}).filter(k=>p.articleSel[k]);
+  const readSel=sel.filter(k=>p.articleRead&&p.articleRead[k]);
+  if(readSel.length){
+    readSel.forEach(i=>{
+      const a=ARTICLES[i];
+      if(!a) return;
+      const preQ=((p.preQ||{})[i])||'';
+      const postN=((p.articleNotes||{})[i])||'';
+      h+=`<div style="border:0.5px solid var(--border2);border-radius:var(--radius);padding:.75rem 1rem;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:500;margin-bottom:6px">${esc(a.n)}</div>`;
+      if(preQ){ h+=`<div style="margin-bottom:4px"><span style="font-size:10px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.04em">Pré-leitura</span><div style="font-size:12px;color:var(--muted);margin-top:2px">${esc(preQ)}</div></div>`; }
+      if(postN){ h+=`<div><span style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.04em">Pós-leitura</span><div style="font-size:12px;color:var(--muted);margin-top:2px">${esc(postN)}</div></div>`; }
+      if(!preQ&&!postN){ h+=`<div style="font-size:12px;color:var(--muted2)">Sem anotações.</div>`; }
+      h+=`</div>`;
+    });
+  } else { h+=`<div class="empty">Nenhum artigo concluído ainda.</div>`; }
+  h+=`</div>`;
+
+  // Domínio do deck
+  const dk=(p.deckStudy||{}).notes||{};
+  const deckName=esc(p.deck||'Meu Deck');
+  h+=`<div>
+    <div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Domínio do Deck — ${deckName}</div>`;
+  const dkLabels={refs:'Referências encontradas',guide:'Guia / deck tech estudado',plano:'Plano de jogo base',sequencias:'Sequências de jogo',matchups:'Planos por matchup',sideboard:'Planos de sideboard',cartas:'Cartas-chave',hands:'Mãos: manter ou não',vitoria:'Como o deck vence'};
+  const filledDk=Object.keys(dkLabels).filter(k=>(dk[k]||'').trim());
+  if(filledDk.length){
+    filledDk.forEach(k=>{
+      h+=`<div style="margin-bottom:8px"><span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">${dkLabels[k]}</span><div style="font-size:12px;color:var(--muted);margin-top:2px">${esc(dk[k])}</div></div>`;
+    });
+  } else { h+=`<div class="empty">Domínio do deck ainda não preenchido.</div>`; }
+  h+=`</div></div>`;
+
+  // ── BLOCO 2: Pauta da reunião ──
+  const PAUTA=[
+    'Compartilhamento individual — fraquezas, artigos lidos e aprendizados',
+    'Ouvir os outros jogadores (fraquezas, artigos e domínio do deck de cada um)',
+    'Listar matchups problemáticas, necessidades de treino e testes prioritários',
+  ];
+  h+=`<div class="card" style="margin-bottom:12px">
+    <div class="card-title"><i class="ti ti-list-check"></i>Pauta da reunião</div>
+    <div class="info">Marque cada item conforme a reunião avança.</div>`;
+  PAUTA.forEach((it,i)=>{
+    const done=p.shareChecks&&p.shareChecks[i];
+    h+=`<div class="chk-item"><div class="chk-box${done?' done':''}" data-sc="${i}">${done?'<i class="ti ti-check" style="font-size:11px;color:#fff"></i>':''}</div><span class="chk-text${done?' done':''}">${esc(it)}</span></div>`;
+  });
+  h+=`<div style="margin-top:1rem"><label class="lbl">Anotações da reunião</label>
+  <textarea placeholder="Decisões tomadas em grupo, planos revisados, insights..." id="share-ta" style="min-height:90px;font-size:13px">${esc(p.shareNotes||'')}</textarea>
+  <div class="row-btns"><button class="btn btn-sm" id="btn-ss"><i class="ti ti-device-floppy"></i> Salvar</button></div></div></div>`;
+
+  // ── BLOCO 3: Atividade complementar — estudo cruzado ──
+  const compItems=[
+    'Cartas-chave do meu deck contra aquela matchup',
+    'Plano principal para ganhar os jogos',
+    'Plano pós-sideboard',
+    'Como aquele deck impede meu desenvolvimento (cartas-chave dele contra mim)',
+  ];
+  h+=`<div class="card" style="margin-bottom:12px">
+    <div class="card-title"><i class="ti ti-arrows-exchange"></i>Atividade complementar — estudo cruzado</div>
+    <div class="info">Estude individualmente o Domínio do Deck de cada colega de time. Para cada deck adversário, anote:</div>`;
+  compItems.forEach((it,i)=>{
+    h+=`<div class="chk-item"><div class="chk-box${(p.compChecks&&p.compChecks[i])?' done':''}" data-cc="${i}">${(p.compChecks&&p.compChecks[i])?'<i class="ti ti-check" style="font-size:11px;color:#fff"></i>':''}</div><span class="chk-text${(p.compChecks&&p.compChecks[i])?' done':''}">${esc(it)}</span></div>`;
+  });
+  h+=`<div style="margin-top:1rem"><label class="lbl">Anotações do estudo cruzado</label>
+  <textarea placeholder="Anote por deck adversário: plano, side, cartas-chave deles contra mim..." id="comp-ta" style="min-height:100px;font-size:13px">${esc(p.compNotes||'')}</textarea>
+  <div class="row-btns"><button class="btn btn-sm" id="btn-sc2"><i class="ti ti-device-floppy"></i> Salvar</button></div></div></div>`;
+
+  // ── Botão avançar ──
+  const pautaDone=PAUTA.every((_,i)=>p.shareChecks&&p.shareChecks[i]);
+  h+=`<div style="margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--border)">`;
+  if(pautaDone){
+    h+=`<button class="btn btn-primary" id="btn-fs2"><i class="ti ti-arrow-right"></i> Prosseguir para Treino Metodológico</button>`;
+  } else {
+    h+=`<span style="font-size:13px;color:var(--muted)">Conclua os 3 itens da pauta para prosseguir.</span>`;
+  }
+  h+=`</div>`;
+
+  return h;
+}
+
+function buildS3(p){
+  const s3view=p._s3view||'intro';
+  let h='';
+
+  // ── TABS (only shown when not on intro) ──
+  if(s3view!=='intro'){
+    const tabs=[{k:'testes',l:'Testes'},{k:'treinos',l:'Treinos'},{k:'problemas',l:'Problemas'}];
+    h+=`<div class="s3tabs">
+      <button class="s3tab" data-s3nav="intro" style="font-size:11px;color:var(--muted);padding:4px 8px">&#8592; Visão geral</button>
+      ${tabs.map(t=>`<button class="s3tab${s3view===t.k?' active':''}" data-s3nav="${t.k}">${t.l}</button>`).join('')}
+    </div>`;
+  }
+
+  // ── INTRO ──
+  if(s3view==='intro'){
+    h+=`<div style="margin-bottom:1.75rem">
+      <div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">3. Treino Metodológico</div>
+      <p style="font-size:16px;font-weight:500;color:var(--text);line-height:1.7">Agora chegamos na parte prática, onde treinaremos à exaustão visando elevar nosso nível como jogadores, focados em performar bem no Ligafest.</p>
+    </div>`;
+
+    const cards=[
+      {k:'testes', title:'Testes', desc:'Teste cartas diferentes, posturas de jogo, mãos arriscadas, planos alternativos. Registre cada teste, seu resultado e observações para revisitar no futuro.'},
+      {k:'treinos', title:'Treinos', desc:'Cada treino deve ter um objetivo específico — não apenas jogar, mas jogar com propósito. Defina o que vai treinar, a modalidade e anote como correu.'},
+      {k:'problemas', title:'Problemas', desc:'Anote os problemas identificados durante testes e treinos. Acompanhe o status de cada um e escale para o grupo ou solicite coaching quando necessário.'},
+    ];
+    h+=`<div style="display:flex;flex-direction:column;gap:10px">`;
+    cards.forEach(c=>{
+      const count=c.k==='testes'?(p.tests||[]).length:c.k==='treinos'?(p.trainLog||[]).length:(p.problems||[]).length;
+      h+=`<div class="card" style="cursor:pointer;border-color:var(--border2)" data-s3nav="${c.k}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="font-size:14px;font-weight:600">${c.title}</div>
+          ${count>0?`<span class="badge badge-red">${count} registro${count>1?'s':''}</span>`:''}
+        </div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6">${c.desc}</div>
+        <div style="margin-top:10px;font-size:12px;font-weight:500;color:var(--red-light)">Acessar &rarr;</div>
+      </div>`;
+    });
+    h+=`</div>`;
+    return h;
+  }
+
+  // ── TESTES ──
+  if(s3view==='testes'){
+    const tests=p.tests||[];
+    h+=`<div style="margin-bottom:1.5rem"><div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Testes</div><p style="font-size:15px;font-weight:500;color:var(--text);line-height:1.7">Teste cartas, posturas, mãos arriscadas e planos alternativos. Registre resultado e observações — o log é permanente e editável.</p></div>`;
+    h+=`<div class="card">
+    <div id="tests-list">`;
+    if(!tests.length) h+=`<div class="empty">Nenhum teste registrado.</div>`;
+    tests.forEach((t,i)=>{
+      h+=`<div class="log-item">
+        <div class="log-item-header">
+          <span class="badge badge-${t.r==='positivo'?'green':t.r==='negativo'?'red':'amber'}">${esc(t.r)}</span>
+          <span style="font-size:13px;font-weight:500;flex:1">${esc(t.mu)}</span>
+          <span style="font-size:11px;color:var(--muted)">${esc(t.dt)}</span>
+          <button class="btn btn-sm" data-tedit="${i}" style="padding:2px 8px;font-size:11px;margin-left:6px">editar</button>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">${esc(t.ob)}</div>`;
+      if(t._editing){
+        h+=`<div style="margin-top:10px;border-top:0.5px solid var(--border);padding-top:10px">
+          <div class="field"><label class="lbl">Matchup</label><input id="te-mu-${i}" value="${esc(t.mu)}"></div>
+          <div class="field"><label class="lbl">Resultado</label><select id="te-r-${i}">
+            ${['positivo','negativo','inconclusivo'].map(v=>`<option value="${v}"${t.r===v?' selected':''}>${v}</option>`).join('')}
+          </select></div>
+          <div class="field"><label class="lbl">Observações</label><textarea id="te-ob-${i}">${esc(t.ob)}</textarea></div>
+          <div class="row-btns"><button class="btn btn-primary btn-sm" data-tsave="${i}">Salvar</button><button class="btn btn-sm" data-tcancel="${i}">Cancelar</button></div>
+        </div>`;
+      }
+      h+=`</div>`;
+    });
+    h+=`</div><div class="div"></div><div class="section-label">Novo teste</div>
+    <div class="field"><label class="lbl">O que estou testando (matchup / carta / postura)</label><input id="t-mu" placeholder="Ex: Iniciar jogo com tal carta do side na mão pra ver impacto..."></div>
+    <div class="field"><label class="lbl">Resultado</label><select id="t-r"><option value="positivo">Positivo</option><option value="negativo">Negativo</option><option value="inconclusivo">Inconclusivo</option></select></div>
+    <div class="field"><label class="lbl">Observações</label><textarea id="t-ob" placeholder="O que funcionou, o que não funcionou, próximos passos..."></textarea></div>
+    <div class="row-btns"><button class="btn btn-primary" id="btn-at">+ Registrar teste</button></div></div>`;
+  }
+
+  // ── TREINOS ──
+  if(s3view==='treinos'){
+    const trains=p.trainLog||[];
+    h+=`<div style="margin-bottom:1.5rem"><div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Treinos</div><p style="font-size:15px;font-weight:500;color:var(--text);line-height:1.7">Jogar com propósito. Defina o objetivo antes de começar, registre a data e anote as conclusões depois.</p></div>`;
+    h+=`<div class="card">
+    <div id="train-list">`;
+    if(!trains.length) h+=`<div class="empty">Nenhum treino registrado.</div>`;
+    trains.forEach((t,i)=>{
+      h+=`<div class="log-item">
+        <div class="log-item-header">
+          <span class="badge badge-${t.done?'green':'amber'}">${t.done?'Concluído':'Planejado'}</span>
+          <span style="font-size:13px;font-weight:500;flex:1">${esc(t.ob)}</span>
+          <span style="font-size:11px;color:var(--muted)">${esc(t.dt)}</span>
+        </div>
+        <div class="log-meta">${esc(t.tp)}</div>
+        ${t.obs?`<div style="font-size:12px;color:var(--muted);margin-top:4px">${esc(t.obs)}</div>`:''}
+        <div class="row-btns" style="margin-top:6px">
+          <button class="btn btn-sm" data-td="${i}">${t.done?'Reabrir':'Marcar concluído'}</button>
+        </div>
+      </div>`;
+    });
+    h+=`</div><div class="div"></div><div class="section-label">Registrar treino</div>
+    <div class="field"><label class="lbl">O que vou treinar?</label><input id="tr-ob" placeholder="Ex: Identificar cartas-chave contra Izzet Prowess..."></div>
+    <div class="field"><label class="lbl">Modalidade</label><select id="tr-tp"><option>Online individual</option><option>Presencial conjunto</option><option>Coaching on-demand</option></select></div>
+    <div class="field"><label class="lbl">Data do treino</label><input id="tr-dt" type="date"></div>
+    <div class="field"><label class="lbl">Observações (como correu, conclusões)</label><textarea id="tr-obs" placeholder="Anote após o treino: o que funcionou, o que descobriu..."></textarea></div>
+    <div class="row-btns"><button class="btn btn-primary" id="btn-atr">+ Registrar treino</button></div></div>`;
+  }
+
+  // ── PROBLEMAS ──
+  if(s3view==='problemas'){
+    const probs=p.problems||[];
+    const STATUS_LABELS={identificado:'Identificado',treinar:'Treinar mais',testar:'Testar',pedir_ajuda:'Pedir ajuda',resolvido:'Resolvido'};
+    const STATUS_BADGE={identificado:'amber',treinar:'amber',testar:'amber',pedir_ajuda:'red',resolvido:'green'};
+    h+=`<div style="margin-bottom:1.5rem"><div style="font-size:11px;font-weight:600;color:var(--red-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Problemas</div><p style="font-size:15px;font-weight:500;color:var(--text);line-height:1.7">Anote os problemas identificados durante testes e treinos. Atualize o status conforme evolui. Ciclo: identificar → treinar/testar → resolver.</p></div>`;
+    h+=`<div class="card">
+    <div id="prob-list">`;
+    if(!probs.length) h+=`<div class="empty">Nenhum problema registrado.</div>`;
+    probs.forEach((pr,i)=>{
+      const st=pr.status||'identificado';
+      h+=`<div class="log-item">
+        <div class="log-item-header">
+          <span class="badge badge-${STATUS_BADGE[st]}">${STATUS_LABELS[st]}</span>
+          <span style="font-size:13px;font-weight:500;flex:1">${esc(pr.p)}</span>
+        </div>
+        ${pr.s?`<div style="font-size:12px;color:var(--muted);margin-top:4px">${esc(pr.s)}</div>`:''}
+        <div style="margin-top:8px">
+          <label class="lbl">Atualizar status</label>
+          <select data-pst="${i}" style="margin-top:0">
+            ${Object.entries(STATUS_LABELS).map(([v,l])=>`<option value="${v}"${st===v?' selected':''}>${l}</option>`).join('')}
+          </select>
+        </div>
+      </div>`;
+    });
+    h+=`</div><div class="div"></div><div class="section-label">Novo problema</div>
+    <div class="field"><label class="lbl">Descreva o problema</label><textarea id="pr-p" placeholder="Ex: Tenho mulligado muito por falta de lands, devo aumentar a quantidade?"></textarea></div>
+    <div class="field"><label class="lbl">Contexto / solução tentada (opcional)</label><input id="pr-s" placeholder="Ex: Tentei incluir mais remoção, mas..."></div>
+    <div class="field"><label class="lbl">Status inicial</label>
+      <select id="pr-st">
+        <option value="identificado">Identificado</option>
+        <option value="treinar">Treinar mais</option>
+        <option value="testar">Testar</option>
+        <option value="pedir_ajuda">Pedir ajuda</option>
+        <option value="resolvido">Resolvido</option>
+      </select>
+    </div>
+    <div class="row-btns">
+      <button class="btn btn-primary" id="btn-ap">+ Registrar</button>
+    </div></div>`;
+  }
+
+  return h;
+}
+
+function bindEvents(p, stage){
+  if(stage===0){
+    // S1 sub-nav (all panels)
+    document.querySelectorAll('[data-s1nav]').forEach(b=>b.addEventListener('click',()=>{
+      p._s1view=b.dataset.s1nav; renderDash();
+    }));
+    // Fraquezas
+    document.querySelectorAll('.tag[data-w]').forEach(t=>{
+      t.addEventListener('click',()=>{
+        const w=t.dataset.w; let l=[...(p.weaknesses||[])];
+        if(l.includes(w)) l=l.filter(x=>x!==w);
+        else l.push(w);
+        p.weaknesses=l; t.classList.toggle('sel',l.includes(w));
+      });
+    });
+    // + Adicionar custom weakness
+    document.getElementById('btn-add-other')?.addEventListener('click',()=>{
+      const inp=document.getElementById('weak-other');
+      const val=inp?.value.trim()||'';
+      if(!val) return;
+      let list=[...(p.weaknesses||[])];
+      if(!list.includes(val)) list.push(val);
+      p.weaknesses=list; inp.value=''; save(); renderDash();
+    });
+    // Enter key on weak-other also adds
+    document.getElementById('weak-other')?.addEventListener('keydown',(e)=>{
+      if(e.key!=='Enter') return;
+      e.preventDefault();
+      const val=e.target.value.trim();
+      if(!val) return;
+      let list=[...(p.weaknesses||[])];
+      if(!list.includes(val)) list.push(val);
+      p.weaknesses=list; e.target.value=''; save(); renderDash();
+    });
+    // Remove custom weakness
+    document.querySelectorAll('[data-rmweak]').forEach(el=>el.addEventListener('click',()=>{
+      const w=el.dataset.rmweak;
+      p.weaknesses=(p.weaknesses||[]).filter(x=>x!==w);
+      save(); renderDash();
+    }));
+    // Confirm/save button — always return to intro after saving
+    document.getElementById('btn-sw')?.addEventListener('click',()=>{
+      if((p.weaknesses||[]).length===0) return;
+      p._s1view='intro'; save(); renderDash();
+    });
+    // Artigos — seleção
+    document.getElementById('btn-ew')?.addEventListener('click',()=>{ p.articleSel={};p.articleRead={};p.articleSelConfirmed=false;save();renderDash(); });
+    document.querySelectorAll('.art-check[data-ai]').forEach(el=>{
+      el.addEventListener('click',()=>{
+        if(!p.articleSel)p.articleSel={};
+        p.articleSel[el.dataset.ai]=!p.articleSel[el.dataset.ai];
+        const sel=Object.keys(p.articleSel).filter(k=>p.articleSel[k]);
+        const btn=document.getElementById('btn-confirm-sel');
+        if(btn) btn.textContent='Prosseguir'+(sel.length>0?' — '+sel.length+' artigo'+(sel.length>1?'s':'')+' selecionado'+(sel.length>1?'s':''):' para estudo');
+        el.classList.toggle('checked',!!p.articleSel[el.dataset.ai]);
+        el.innerHTML=p.articleSel[el.dataset.ai]?'<i class="ti ti-check" style="font-size:11px;color:#fff"></i>':'';
+        save();
+      });
+    });
+    document.getElementById('btn-confirm-sel')?.addEventListener('click',()=>{
+      const sel=Object.keys(p.articleSel||{}).filter(k=>p.articleSel[k]);
+      if(!sel.length){ alert('Selecione ao menos 1 artigo antes de prosseguir.'); return; }
+      p.articleSelConfirmed=true; save(); renderDash();
+    });
+    // Artigos — estudo ativo
+    document.querySelectorAll('[data-spq]').forEach(b=>b.addEventListener('click',()=>{ const i=b.dataset.spq,ta=document.getElementById('pq-'+i); if(ta){if(!p.preQ)p.preQ={};p.preQ[i]=ta.value;save();renderDash();} }));
+    document.querySelectorAll('[data-mr]').forEach(b=>b.addEventListener('click',()=>{ const i=b.dataset.mr; if(!p.articleRead)p.articleRead={}; p.articleRead[i]=true; save(); renderDash(); }));
+    document.querySelectorAll('[data-spn]').forEach(b=>b.addEventListener('click',()=>{ const i=b.dataset.spn,ta=document.getElementById('pn-'+i); if(ta){if(!p.articleNotes)p.articleNotes={};p.articleNotes[i]=ta.value;save();} }));
+    // Domínio do deck
+    document.querySelectorAll('[data-sdk]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.sdk,ta=document.getElementById('dk-'+k); if(ta){if(!p.deckStudy)p.deckStudy={};if(!p.deckStudy.notes)p.deckStudy.notes={};p.deckStudy.notes[k]=ta.value;save();renderDash();} }));
+    document.getElementById('btn-fs1')?.addEventListener('click',()=>{ p.stage=1; save(); viewingStage=1; renderDash(1); });
+  } else if(stage===1){
+    document.querySelectorAll('[data-sc]').forEach(el=>el.addEventListener('click',()=>{ const i=parseInt(el.dataset.sc); if(!p.shareChecks)p.shareChecks={}; p.shareChecks[i]=!p.shareChecks[i]; save(); renderDash(); }));
+    document.querySelectorAll('[data-cc]').forEach(el=>el.addEventListener('click',()=>{ const i=parseInt(el.dataset.cc); if(!p.compChecks)p.compChecks={}; p.compChecks[i]=!p.compChecks[i]; save(); renderDash(); }));
+    document.getElementById('btn-ss')?.addEventListener('click',()=>{ const ta=document.getElementById('share-ta'); if(ta){p.shareNotes=ta.value;save();} });
+    document.getElementById('btn-sc2')?.addEventListener('click',()=>{ const ta=document.getElementById('comp-ta'); if(ta){p.compNotes=ta.value;save();} });
+    document.getElementById('btn-fs2')?.addEventListener('click',()=>{ p.stage=2; save(); viewingStage=2; renderDash(2); });
+  } else {
+    // Stage 3 nav (intro + sub-panels)
+    document.querySelectorAll('[data-s3nav]').forEach(b=>b.addEventListener('click',()=>{
+      if(!p._s3view) p._s3view='intro';
+      p._s3view=b.dataset.s3nav; renderDash();
+    }));
+
+    // Testes
+    document.getElementById('btn-at')?.addEventListener('click',()=>{
+      const mu=document.getElementById('t-mu')?.value.trim(),r=document.getElementById('t-r')?.value,ob=document.getElementById('t-ob')?.value.trim();
+      if(!mu) return; if(!p.tests)p.tests=[];
+      p.tests.unshift({mu,r,ob,dt:new Date().toLocaleDateString('pt-BR'),_editing:false});
+      save(); renderDash();
+    });
+    document.querySelectorAll('[data-tedit]').forEach(el=>el.addEventListener('click',()=>{
+      const i=parseInt(el.dataset.tedit);
+      if(p.tests&&p.tests[i]) p.tests[i]._editing=!p.tests[i]._editing;
+      renderDash();
+    }));
+    document.querySelectorAll('[data-tsave]').forEach(el=>el.addEventListener('click',()=>{
+      const i=parseInt(el.dataset.tsave);
+      if(p.tests&&p.tests[i]){
+        p.tests[i].mu=document.getElementById('te-mu-'+i)?.value||p.tests[i].mu;
+        p.tests[i].r=document.getElementById('te-r-'+i)?.value||p.tests[i].r;
+        p.tests[i].ob=document.getElementById('te-ob-'+i)?.value||p.tests[i].ob;
+        p.tests[i]._editing=false; save(); renderDash();
+      }
+    }));
+    document.querySelectorAll('[data-tcancel]').forEach(el=>el.addEventListener('click',()=>{
+      const i=parseInt(el.dataset.tcancel);
+      if(p.tests&&p.tests[i]) p.tests[i]._editing=false; renderDash();
+    }));
+
+    // Treinos
+    document.getElementById('btn-atr')?.addEventListener('click',()=>{
+      const ob=document.getElementById('tr-ob')?.value.trim(),tp=document.getElementById('tr-tp')?.value,dt=document.getElementById('tr-dt')?.value,obs=document.getElementById('tr-obs')?.value.trim();
+      if(!ob) return; if(!p.trainLog)p.trainLog=[];
+      p.trainLog.unshift({ob,tp,dt:dt||new Date().toLocaleDateString('pt-BR'),obs:obs||'',done:false});
+      save(); renderDash();
+    });
+    document.querySelectorAll('[data-td]').forEach(el=>el.addEventListener('click',()=>{
+      const i=parseInt(el.dataset.td); if(p.trainLog&&p.trainLog[i])p.trainLog[i].done=!p.trainLog[i].done; save(); renderDash();
+    }));
+
+    // Problemas
+    document.getElementById('btn-ap')?.addEventListener('click',()=>{
+      const pr=document.getElementById('pr-p')?.value.trim(),s=document.getElementById('pr-s')?.value.trim();
+      const st=document.getElementById('pr-st')?.value||'identificado';
+      if(!pr) return; if(!p.problems)p.problems=[];
+      p.problems.unshift({p:pr,s:s||'',status:st}); save(); renderDash();
+    });
+    document.querySelectorAll('[data-pst]').forEach(el=>el.addEventListener('change',()=>{
+      const i=parseInt(el.dataset.pst); if(p.problems&&p.problems[i]){ p.problems[i].status=el.value; save(); }
+    }));
+  }
+}
+
+function initCounter(){
+  const end=new Date('2026-07-11');
+  const diff=Math.ceil((end-new Date())/(1000*60*60*24));
+  const el=document.getElementById('days-ctr');
+  if(el) el.textContent=diff>0?diff+' dias para o Ligafest':diff===0?'Hoje é o dia!':'Encerrado';
+}
+
+function renderCronograma(show){
+  const block=document.getElementById('cronograma-block');
+  if(!block) return;
+  block.style.display=show?'block':'none';
+  if(!show) return;
+
+  const PHASES=[
+    {label:'Início',               icon:'14/06',  dates:'14/06',        start:'2026-06-14', end:'2026-06-14', event:false},
+    {label:'Estudo Teórico',       icon:'ETR',    dates:'15–22/06',     start:'2026-06-15', end:'2026-06-22', event:false},
+    {label:'Compartilhamento',     icon:'COMP',   dates:'23/06',        start:'2026-06-23', end:'2026-06-23', event:false},
+    {label:'Treino',               icon:'TRN',    dates:'24/06–10/07',  start:'2026-06-24', end:'2026-07-10', event:false},
+    {label:'LIGAFEST',             icon:'LGF',    dates:'11–12/07',     start:'2026-07-11', end:'2026-07-12', event:true},
+  ];
+
+  // Use BRT (GMT-3)
+  const _raw=new Date(); const now=new Date(_raw.toLocaleString('en-US',{timeZone:'America/Sao_Paulo'}));
+  const PREP_START=new Date('2026-06-14T03:00:00Z'); // midnight BRT
+  const EVENT_END=new Date('2026-07-12T02:59:59Z'); // end of day BRT
+  const totalMs=EVENT_END-PREP_START;
+  const elapsedMs=Math.min(Math.max(now-PREP_START,0),totalMs);
+  const pct=Math.round((elapsedMs/totalMs)*100);
+
+  // update progress line width to match track width * pct
+  const track=document.getElementById('crono-track');
+  const fillWrap=document.getElementById('crono-fill-wrap');
+
+  // render nodes
+  track.innerHTML=PHASES.map((ph,idx)=>{
+    // Parse as BRT midnight (GMT-3 = UTC+3h offset)
+    const phStart=new Date(ph.start+'T03:00:00Z'); // midnight BRT = 03:00 UTC
+    const phEnd=new Date(ph.end+'T03:00:00Z'); phEnd.setHours(phEnd.getHours()+20,59,59);
+    let state='future';
+    if(now>phEnd) state='done';
+    else if(now>=phStart) state='active';
+    // circle color: green if started or done, red if not started yet
+    const circleState=(state==='done'||state==='active')?'done':'future';
+
+    // countdown
+    let cd='';
+    if(ph.event){
+      const diffD=Math.ceil((new Date('2026-07-11')-now)/86400000);
+      if(diffD>0) cd=`<div class="crono-cd">${diffD}d</div>`;
+      else if(diffD>=-1) cd=`<div class="crono-cd">Hoje!</div>`;
+    } else if(state==='active'){
+      const diffD=Math.ceil((phEnd-now)/86400000);
+      if(diffD>0) cd=`<div class="crono-cd amber">${diffD}d</div>`;
+    }
+
+    const circleClass='crono-circle '+(ph.event?'event':circleState);
+    // visual icons per phase
+    const ICONS=['🗓️','📖','🤝','⚔️','🏆'];
+    const icon=ICONS[idx]||'●';
+
+    return `<div class="crono-node">
+      <div class="crono-node-label-above">
+        <div class="crono-lbl ${ph.event?'event':state}">${ph.label}</div>
+      </div>
+      <div class="${circleClass}">${icon}</div>
+      <div class="crono-node-label-below">
+        <div class="crono-dt">${ph.dates}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // draw SVG line segments between node centers, green=done, red=active, muted=future
+  requestAnimationFrame(()=>{
+    const nodes=track.querySelectorAll('.crono-node');
+    const trackRect=track.getBoundingClientRect();
+    const cy=track.offsetHeight/2;
+    let svg=`<svg class="crono-svg" viewBox="0 0 ${track.offsetWidth} ${track.offsetHeight}" preserveAspectRatio="none">`;
+
+    const centers=[];
+    nodes.forEach(n=>{
+      const r=n.getBoundingClientRect();
+      centers.push(r.left-trackRect.left+r.width/2);
+    });
+
+    PHASES.forEach((ph,idx)=>{
+      if(idx===0) return;
+      const phStart=new Date(ph.start);
+      const phEnd=new Date(ph.end); phEnd.setHours(23,59,59);
+      const prevEnd=new Date(PHASES[idx-1].end); prevEnd.setHours(23,59,59);
+
+      let segState='future';
+      if(now>prevEnd) segState='done';
+      else if(now>=new Date(PHASES[idx-1].start)) segState='active';
+
+      const color=segState==='done'?'var(--green)':segState==='active'?'var(--red)':'var(--border2)';
+      const opacity=segState==='future'?'0.4':'1';
+      const x1=centers[idx-1], x2=centers[idx];
+      svg+=`<line x1="${x1}" y1="${cy}" x2="${x2}" y2="${cy}" stroke="${color}" stroke-width="2" opacity="${opacity}"/>`;
+    });
+
+    const totalDays=Math.round((EVENT_END-PREP_START)/86400000);
+    const lineLeft=centers[0];
+    const lineRight=centers[centers.length-1];
+    const lineLen=lineRight-lineLeft;
+    const todayPct=Math.min(Math.max((now-PREP_START)/(EVENT_END-PREP_START),0),1);
+    const todayX=lineLeft+lineLen*todayPct;
+
+    // ── LAYER 1: base line segments (green left of today, red right) ──
+    // green segment
+    svg+=`<line x1="${lineLeft}" y1="${cy}" x2="${todayX}" y2="${cy}" stroke="var(--green)" stroke-width="2"/>`;
+    // red segment
+    svg+=`<line x1="${todayX}" y1="${cy}" x2="${lineRight}" y2="${cy}" stroke="var(--red)" stroke-width="2"/>`;
+
+    // ── LAYER 2: day tick marks, colored to match their segment ──
+    // Gap between node 0 (14 Jun) and node 1 (15 Jun) is only 1 day — draw 1 larger tick
+    for(let d=0;d<=totalDays;d++){
+      const tx=lineLeft+(lineLen*(d/totalDays));
+      const dayDate=new Date(PREP_START.getTime()+d*86400000);
+      const isPast=tx<=todayX;
+      const isSunday=dayDate.getDay()===0;
+      // Between node0 and node1: only 1 day apart, skip d=0 (on circle) and draw d=1 as big tick
+      const isSingleGap=(d===1); // day 1 = 15 Jun sits right on node 1, skip internal tick
+      if(isSingleGap) continue;   // no subdivision needed in 1-day gap
+      const tickH=isSunday?6:3;
+      const tickColor=isPast?'var(--green)':'var(--red)';
+      svg+=`<line x1="${tx}" y1="${cy-tickH}" x2="${tx}" y2="${cy+tickH}" stroke="${tickColor}" stroke-width="${isSunday?1.5:1}" opacity="0.7"/>`;
+    }
+    // Single prominent tick in the 1-day gap between Início and Estudo Teórico
+    {
+      const tx=lineLeft+(lineLen*(1/totalDays));
+      const isPast=tx<=todayX;
+      const tickColor=isPast?'var(--green)':'var(--red)';
+      svg+=`<line x1="${tx}" y1="${cy-7}" x2="${tx}" y2="${cy+7}" stroke="${tickColor}" stroke-width="2" opacity="0.8"/>`;
+    }
+
+    // close SVG — line + ticks go behind nodes
+    svg+='</svg>';
+    const existingSvg=track.querySelector('.crono-svg');
+    if(existingSvg) existingSvg.remove();
+    // insert BEFORE nodes so line sits behind circles
+    track.insertAdjacentHTML('afterbegin', svg);
+
+    // ── TODAY DOT: separate element rendered AFTER nodes (always on top) ──
+    const existingDot=track.querySelector('.crono-today-dot-el');
+    if(existingDot) existingDot.remove();
+    if(todayPct>=0&&todayPct<=1){
+      const dotSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      dotSvg.setAttribute('class','crono-today-dot-el');
+      dotSvg.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:20;overflow:visible';
+      dotSvg.innerHTML=
+        `<circle cx="${todayX}" cy="${cy}" r="9" fill="none" stroke="white" stroke-width="1" opacity="0.25"/>`+
+        `<circle cx="${todayX}" cy="${cy}" r="6" fill="white" stroke="#444" stroke-width="1.5"/>`+
+        `<circle cx="${todayX}" cy="${cy}" r="2.5" fill="var(--red)"/>`;
+      track.appendChild(dotSvg);
+    }
+  });
+}
+
+load(); lobby(); initCounter();
+</script>
+</body>
+</html>
